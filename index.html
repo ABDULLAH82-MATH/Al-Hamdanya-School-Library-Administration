@@ -1,0 +1,1479 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة مكتبة مدرسة الحمدانية الكبرى الخاصة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* --- المتغيرات والتصميم العام العصري المعدل --- */
+        :root {
+            --primary-color: #1e1b4b; /* كحلي عتيق فخم */
+            --secondary-color: #b45309; /* ذهبي ملكي دافئ / خردلي غني */
+            --accent-color: #f59e0b; /* عنبري مضيء */
+            --dark-color: #334155; /* رمادي دافئ مائل للأزرق للمتن */
+            --light-color: #f8fafc; /* خلفية الفراغات البيضاء */
+            --success-color: #047857; /* أخضر زمردي داكن للعمليات الناجحة */
+            --danger-color: #be123c; /* أحمر ياقوتي للتنبيهات */
+            --bg-body: #f4f4f5; /* لون الخلفية العامة للمنصة */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--dark-color);
+            padding-bottom: 90px; /* مساحة للشريط السفلي الثابت */
+            font-size: 1.1rem;
+        }
+
+        /* --- الهيدر المطور (العنوان في المنتصف والشعار في أقصى اليسار) --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #2e1065);
+            color: white;
+            padding: 40px 40px;
+            box-shadow: 0 4px 20px rgba(30, 27, 75, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* توزيع العناصر على الأطراف وبقاء الفراغات */
+            position: relative;
+        }
+
+        /* حاوية وهمية يمين العنوان لضمان بقاء العنوان في المنتصف تماماً هندسياً */
+        .header-spacer {
+            width: 180px;
+            flex-shrink: 0;
+        }
+
+        /* حركة العنوان الرئيسي الموازن في منتصف الشاشة */
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: -0.5px;
+            animation: glow-pulse 3.5s infinite alternate;
+            flex: 1; /* جعل العنوان يأخذ المساحة الوسطى كاملة */
+        }
+
+        /* تكبير حجم دائرة الشعار ودفعها في أقصى يسار الشاشة */
+        .school-logo {
+            width: 150px; 
+            height: 150px; 
+            object-fit: cover;
+            border-radius: 50%; 
+            border: 6px solid var(--accent-color); 
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            box-shadow: 0 12px 30px -3px rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+            text-align: center;
+            padding: 15px;
+            margin-right: auto; /* دفع الشعار لأقصى اليسار في اتجاه الـ RTL */
+        }
+
+        .school-logo:hover {
+            transform: scale(1.08) rotate(-5deg);
+        }
+
+        @keyframes glow-pulse {
+            0% { text-shadow: 0 0 10px rgba(245, 158, 11, 0.3), 2px 2px 8px rgba(0,0,0,0.4); transform: scale(1); }
+            100% { text-shadow: 0 0 25px var(--accent-color), 2px 2px 12px rgba(0,0,0,0.5); transform: scale(1.01); }
+        }
+
+        /* --- شريط الأيقونات والتنقل الأفقي الموحد بجانب بعضها --- */
+        .nav-bar {
+            background-color: white;
+            padding: 15px 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: center; 
+            gap: 12px;
+            flex-wrap: nowrap; /* منع الالتفاف للحفاظ على الصف الأفقي بجانب بعضها */
+            overflow-x: auto; /* إتاحة التمرير الأفقي السلس في الشاشات الصغيرة جداً */
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--dark-color);
+            white-space: nowrap; /* إجبار النصوص على عدم الانقسام للحفاظ على الاستقامة */
+            flex: 1; /* جعل الأزرار تتوزع بالتساوي */
+            justify-content: center;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover i {
+            transform: scale(1.2) rotate(-8deg);
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(180, 83, 9, 0.3);
+            border-color: transparent;
+        }
+
+        .nav-item:hover i, .nav-item.active i {
+            color: white;
+        }
+
+        /* --- الحاويات والصفحات --- */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 25px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeInSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(15px); filter: blur(2px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* --- مكونات الشاشة الرئيسية --- */
+        .director-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 40px;
+            border-right: 6px solid var(--secondary-color);
+        }
+
+        .director-img-wrapper, .source-img-wrapper {
+            flex: 0 0 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #e2e8f0;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .director-section:hover .director-img-wrapper {
+            transform: scale(1.03);
+            border-color: var(--accent-color);
+        }
+
+        .director-img-wrapper img, .source-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .director-text {
+            flex: 1;
+        }
+
+        .director-text h2 {
+            color: var(--primary-color);
+            font-size: 1.9rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+
+        .director-text p {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: var(--dark-color);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        /* تنسيق شبكة الرسوم البيانية المخصصة لصفحة الإحصاءات الجديدة */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-top: 35px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 380px;
+        }
+
+        .chart-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-top-color: var(--secondary-color);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 12px;
+        }
+
+        .card h3 i {
+            color: var(--secondary-color);
+        }
+
+        .stats-list, .activity-list {
+            list-style: none;
+        }
+
+        .stats-list li, .activity-list li {
+            padding: 14px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.15rem;
+            color: var(--dark-color);
+        }
+
+        .stats-list li strong {
+            font-size: 1.25rem;
+            color: var(--secondary-color);
+        }
+
+        .stats-item-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .source-manager-profile {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .source-manager-profile h4 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .source-img-wrapper {
+            flex: 0 0 100px;
+            height: 100px;
+            border-width: 2px;
+        }
+
+        /* --- النماذج والجداول (الكتب والإعارات) --- */
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        input, select, textarea {
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            outline: none;
+            background-color: #f8fafc;
+            color: var(--dark-color);
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 4px rgba(180, 83, 9, 0.15);
+            background-color: #fff;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active { transform: scale(0.98); }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: #2e1065; }
+        .btn-success { background-color: var(--success-color); color: white; }
+        .btn-success:hover { background-color: #065f46; }
+        .btn-danger { background-color: var(--danger-color); color: white; }
+        .btn-danger:hover { background-color: #9f1239; }
+        .btn-warning { background-color: var(--secondary-color); color: white; }
+        .btn-warning:hover { background-color: #92400e; }
+        .btn-info { background-color: #0284c7; color: white; }
+        .btn-info:hover { background-color: #0369a1; }
+
+        /* قوائم الاقتراحات الذكية */
+        .autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-item {
+            padding: 14px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f1f5f9;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        /* الجداول المنظمة */
+        .table-responsive {
+            overflow-x: auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 1.15rem;
+        }
+
+        th, td {
+            padding: 20px 18px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+        }
+
+        tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* شارات الحالة المحدثة */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .badge-success { background-color: #d1fae5; color: #065f46; }
+        .badge-danger { background-color: #fee2e2; color: #991b1b; }
+        .badge-warning { background-color: #fef3c7; color: #92400e; }
+
+        /* --- الشريط السفلي الثابت والمتحرك --- */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(90deg, #1e1b4b, #2e1065, #1e1b4b);
+            background-size: 200% 100%;
+            animation: gradientMove 8s linear infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            font-size: 1.15rem;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .footer-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-content a:hover {
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* ------------------------------------------------------------- */
+        /* قواعد التنسيق المخصصة للطباعة الفورية في صفحة واحدة مخصصة ذات هوامش صغيرة */
+        /* ------------------------------------------------------------- */
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+                padding-bottom: 0 !important;
+                font-size: 10pt !important;
+            }
+            header, nav, footer, .form-container, .btn-group, th:last-child, td:last-child, .nav-bar {
+                display: none !important; /* إخفاء العناصر غير الضرورية عند الطباعة */
+            }
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .page {
+                display: none !important;
+            }
+            #books-page {
+                display: block !important; /* فرض إظهار صفحة الكتب فقط */
+            }
+            .table-responsive {
+                box-shadow: none !important;
+                border: none !important;
+                overflow: visible !important;
+            }
+            table {
+                width: 100% !important;
+                border: 1px solid #000 !important;
+                font-size: 10pt !important;
+            }
+            th, td {
+                padding: 8px 6px !important; /* هوامش ضيقة لتلائم صفحة واحدة */
+                border: 1px solid #ccc !important;
+                color: black !important;
+            }
+            th {
+                background-color: #f2f2f2 !important;
+                color: black !important;
+            }
+            /* تحديد هوامش الصفحة صغيرة جداً للطباعة المنسقة */
+            @page {
+                size: A4 portrait;
+                margin: 0.8cm !important;
+            }
+            /* إضافة عنوان علوي للطباعة فقط */
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #000;
+                padding-bottom: 5px;
+            }
+        }
+        .print-header {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content-wrapper">
+            <div class="header-spacer"></div>
+            <h1 class="main-title" id="display-platform-title">مكتبة مدرسة الحمدانية الكبرى الخاصة</h1>
+            <div id="school-logo-container">
+                <div class="school-logo" id="logo-preview-header">شعار المدرسة</div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-item active" onclick="switchPage('home-page')">
+            <i class="fas fa-home"></i>
+            <span>الشاشة الرئيسية</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('books-page')">
+            <i class="fas fa-book"></i>
+            <span>تحميل وإدارة الكتب</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('borrow-page')">
+            <i class="fas fa-hand-holding-heart"></i>
+            <span>إعارة الكتب</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('return-page')">
+            <i class="fas fa-undo-alt"></i>
+            <span>إرجاع الكتب</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('stats-page')">
+            <i class="fas fa-chart-pie"></i>
+            <span>إحصاءات الكتب والرسوم البيانية</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('admin-page')">
+            <i class="fas fa-cogs"></i>
+            <span>لوحة التحكم</span>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div id="home-page" class="page active">
+            <div class="director-section">
+                <div class="director-text">
+                    <h2 id="display-director-title">كلمة مدير المدرسة عن أهمية المكتبة والقراءة</h2>
+                    <p id="display-director-speech">إن القراءة هي مفتاح المعرفة وغذاء الروح، ومن هذا المنطلق تسعى مدرسة الحمدانية الكبرى الخاصة لتوفير بيئة تعليمية ذكية ومثمرة لأبنائنا الطلبة عبر هذه المنصة الرقمية التي تسهل الوصول إلى منابع العلم والمعرفة لتبني جيلاً قارئاً ومبدعاً.</p>
+                </div>
+                <div class="director-img-wrapper">
+                    <img id="display-director-img" src="" alt="صورة مدير المدرسة" style="display:none;">
+                    <i class="fas fa-user-tie fa-5x" id="default-director-icon" style="color: #cbd5e1;"></i>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> ملخص سريع لأقسام المكتبة</h3>
+                    <ul class="stats-list" id="home-quick-stats-list">
+                        <li><span class="stats-item-title"><i class="fas fa-chart-line" style="color:var(--secondary-color);"></i> العلمية</span> <strong>0 كتاب</strong></li>
+                        <li><span class="stats-item-title"><i class="fas fa-chart-pie" style="color:var(--secondary-color);"></i> الأدبية</span> <strong>0 كتاب</strong></li>
+                        <li><span class="stats-item-title"><i class="fas fa-chart-area" style="color:var(--secondary-color);"></i> التربوية</span> <strong>0 كتاب</strong></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-calendar-star"></i> أنشطة وفعاليات المكتبة</h3>
+                    <div id="display-activities-content">
+                        <p>لا توجد فعاليات مدرجة حالياً. يمكنك إضافتها من لوحة التحكم.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-id-card"></i> مسؤول مصادر التعلم</h3>
+                    <div class="source-manager-profile">
+                        <div class="source-img-wrapper">
+                            <img id="display-source-img" src="" alt="مسؤول مصادر التعلم" style="display:none;">
+                            <i class="fas fa-user-graduate fa-3x" id="default-source-icon" style="color: #cbd5e1;"></i>
+                        </div>
+                        <div>
+                            <h4 id="display-source-name">الأستاذ الفاضل</h4>
+                            <p id="display-source-bio" style="font-size:1rem; color:#64748b;">يُشرف على تنظيم وتطوير المحتوى المعرفي للمكتبة ومساعدة الطلاب.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="stats-page" class="page">
+            <div class="form-container" style="margin-bottom: 0;">
+                <h2 style="margin-bottom:20px; color:var(--primary-color);"><i class="fas fa-chart-pie"></i> إحصائيات الكتب في المكتبة حسب الأقسام والرسوم التوضيحية</h2>
+                <p style="color:#64748b; margin-bottom: 20px;">شاشة ذكية لعرض التقارير الهيكلية والنسب المئوية لحجم المخزون المعرفي بالأقسام فورياً.</p>
+                
+                <div class="table-responsive" style="box-shadow: none; border: 1px solid #e2e8f0;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم القسم الإداري</th>
+                                <th>إجمالي عدد الكتب المتاحة</th>
+                                <th>الحالة التشغيلية للقسم</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-table-detailed-body">
+                            </tbody>
+                    </table>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-box">
+                        <h4><i class="fas fa-chart-pie" style="color: var(--secondary-color);"></i> الرسم البياني الدائري (النسب المئوية للكتب)</h4>
+                        <div class="chart-container">
+                            <canvas id="pieChartCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <h4><i class="fas fa-chart-bar" style="color: #0284c7;"></i> الرسم البياني التوضيحي بالأعمدة (أعداد الكتب)</h4>
+                        <div class="chart-container">
+                            <canvas id="barChartCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="books-page" class="page">
+            <div class="print-header">
+                <h2 style="margin-bottom: 5px;">مدرسة الحمدانية الكبرى الخاصة</h2>
+                <h3>سجل التقرير الشامل لجميع الكتب المدرجة بالمكتبة</h3>
+                <p style="font-size: 12px; margin-top: 5px;">تاريخ استخراج التقرير: 2026-06-29</p>
+            </div>
+
+            <div class="form-container">
+                <h2 style="margin-bottom:20px; color:var(--primary-color);"><i class="fas fa-book-medical"></i> إدارة وإدخل الكتب</h2>
+                <form id="book-form">
+                    <input type="hidden" id="book-edit-index" value="">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>القسم</label>
+                            <select id="book-category" required>
+                                <option value="العلمية">العلمية</option>
+                                <option value="الأدبية">الأدبية</option>
+                                <option value="التربوية">التربوية</option>
+                                <option value="قصص وروايات">قصص وروايات</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>رقم تصنيف الكتاب</label>
+                            <input type="text" id="book-classification" required placeholder="مثال: 813.5">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم الكتاب</label>
+                            <input type="text" id="book-title" required placeholder="أدخل العنوان الكامل">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم المؤلف</label>
+                            <input type="text" id="book-author" required placeholder="اسم المؤلف">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ النشر</label>
+                            <input type="date" id="book-pub-date" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>ملخص محتوى الكتاب</label>
+                            <textarea id="book-summary" rows="3" placeholder="نبذة مختصرة عن محتويات الكتاب ووحداته..."></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn-success" id="btn-save-book">حفظ الكتاب الجديد <i class="fas fa-plus"></i></button>
+                        <button type="button" class="btn-info" onclick="printBooksInventory()">طباعة سجل الكتب المنسق <i class="fas fa-print"></i></button>
+                        <button type="button" class="btn-danger" id="btn-cancel-book-edit" style="display:none;" onclick="resetBookForm()">إلغاء التعديل</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>رقم التصنيف</th>
+                            <th>اسم الكتاب</th>
+                            <th>القسم</th>
+                            <th>المؤلف</th>
+                            <th>تاريخ النشر</th>
+                            <th>العمليات الإدارية</th>
+                        </tr>
+                    </thead>
+                    <tbody id="books-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="borrow-page" class="page">
+            <div class="form-container">
+                <h2 style="margin-bottom:20px; color:var(--primary-color);"><i class="fas fa-share-square"></i> نظام إعارة الكتب الذكي</h2>
+                <form id="borrow-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>نوع المستعير</label>
+                            <select id="borrower-type" required>
+                                <option value="طالب">طالب</option>
+                                <option value="طالبة">طالبة</option>
+                                <option value="معلم">معلم</option>
+                                <option value="معلمة">معلمة</option>
+                                <option value="إداري">إداري</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>اسم المستعير</label>
+                            <input type="text" id="borrower-name" required placeholder="الاسم ثلاثي">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم الكتاب (بحث ذكي بالآلي)</label>
+                            <input type="text" id="borrow-book-title" autocomplete="off" oninput="handleBookSearch(this.value)" required placeholder="اكتب أول حرف للبحث...">
+                            <div id="search-suggestions" class="autocomplete-suggestions" style="display:none;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>قسم الكتاب</label>
+                            <input type="text" id="borrow-book-cat" readonly placeholder="سيملأ تلقائياً">
+                        </div>
+                        <div class="form-group">
+                            <label>رقم التصنيف</label>
+                            <input type="text" id="borrow-classification" readonly placeholder="سيملأ تلقائياً">
+                        </div>
+                        <div class="form-group">
+                            <label>المؤلف</label>
+                            <input type="text" id="borrow-author" readonly placeholder="سيملأ تلقائياً">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ الإستعارة</label>
+                            <input type="date" id="borrow-date" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">إتمام عملية الإعارة <i class="fas fa-check-circle"></i></button>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المستعير (الفئة)</th>
+                            <th>الكتاب</th>
+                            <th>تاريخ الإستعارة</th>
+                            <th>المدة المتبقية</th>
+                            <th>الحالة والالتزام</th>
+                        </tr>
+                    </thead>
+                    <tbody id="borrow-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="return-page" class="page">
+            <div class="form-container">
+                <h2 style="margin-bottom:20px; color:var(--primary-color);"><i class="fas fa-undo-alt"></i> معالجة إرجاع الكتب المستعارة</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>اختر الإعارة النشطة لإرجاعها</label>
+                        <select id="return-select-borrow" onchange="loadReturnDetails()">
+                            <option value="">-- اختر اسم المستعير والكتاب المستعار --</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="return-details-card" style="display:none; background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:10px; margin-bottom:20px;">
+                    <h4 style="color:var(--primary-color); margin-bottom:10px;">ملخص بيانات العملية المراد إغلاقها:</h4>
+                    <p><strong>اسم المستعير:</strong> <span id="ret-name">-</span></p>
+                    <p><strong>اسم الكتاب:</strong> <span id="ret-book">-</span></p>
+                    <p><strong>تاريخ الإستعارة المعتمد:</strong> <span id="ret-date">-</span></p>
+                </div>
+
+                <button type="button" class="btn-warning" onclick="processBookReturn()">تثبيت إرجاع الكتاب وإغلاق السجل</button>
+            </div>
+        </div>
+
+        <div id="admin-page" class="page">
+            <div class="form-container">
+                <h2 style="margin-bottom:20px; color:var(--primary-color);"><i class="fas fa-sliders-h"></i> إعدادات المنصة ومحتوى الشاشة الرئيسية</h2>
+                
+                <h3 style="margin:20px 0 10px; color:var(--secondary-color);">الشعار والعناوين الرئيسية</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>تحميل شعار المدرسة كصورة</label>
+                        <input type="file" id="upload-logo" accept="image/*" onchange="previewImage(this, 'logo-preview-header', 'logo-preview-admin')">
+                        <div id="logo-preview-admin" style="font-size: 11px; color: #64748b; margin-top:5px;">لم يتم رفع صورة</div>
+                    </div>
+                    <div class="form-group">
+                        <label>تعديل اسم المنصة الرئيسي</label>
+                        <input type="text" id="input-platform-title" value="مكتبة مدرسة الحمدانية الكبرى الخاصة">
+                    </div>
+                </div>
+
+                <h3 style="margin:20px 0 10px; color:var(--secondary-color);">إعدادات كلمة المدير</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>عنوان المقال</label>
+                        <input type="text" id="input-director-title" value="كلمة مدير المدرسة عن أهمية المكتبة والقراءة">
+                    </div>
+                    <div class="form-group">
+                        <label>تحميل صورة مدير المدرسة</label>
+                        <input type="file" id="upload-director-img" accept="image/*" onchange="previewImage(this, 'display-director-img', null, 'default-director-icon')">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>نص مقال وكلمة المدير</label>
+                        <textarea id="input-director-speech" rows="3">إن القراءة هي مفتاح المعرفة وغذاء الروح، ومن هذا النطلق تسعى مدرسة الحمدانية الكبرى الخاصة لتوفير بيئة تعليمية ذكية ومثمرة لأبنائنا الطلبة عبر هذه المنصة الرقمية التي تسهل الوصول إلى منابع العلم والمعرفة لتبني جيلاً قارئاً ومبدعاً.</textarea>
+                    </div>
+                </div>
+
+                <h3 style="margin:20px 0 10px; color:var(--secondary-color);">مسؤول المصادر والفعاليات</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>اسم مسؤول مصادر التعلم</label>
+                        <input type="text" id="input-source-name" value="الأستاذ الفاضل">
+                    </div>
+                    <div class="form-group">
+                        <label>تحميل صورة مسؤول المصادر</label>
+                        <input type="file" id="upload-source-img" accept="image/*" onchange="previewImage(this, 'display-source-img', null, 'default-source-icon')">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>نبذة ومحتوى مسؤول المصادر</label>
+                        <textarea id="input-source-bio" rows="2">يُشرف على تنظيم وتطوير المحتوى المعرفي للمكتبة ومساعدة الطلاب.</textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>أنشطة وفعاليات المكتبة (اكتب كل نشاط في سطر منفصل)</label>
+                        <textarea id="input-activities" rows="3">مسابقة فارس القراءة الأسبوعية.&#10;معرض الكتاب السنوي للمدرسة بالمبنى الرئيسي.&#10;ورشة عمل القراءة الذكية والتلخيص الإبداعي.</textarea>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary" onclick="saveAdminSettings()">تحديث بيانات الشاشة الرئيسية بالكامل <i class="fas fa-save"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <span>تم تصميم وتطوير المنصة بواسطة </span>
+            <a href="https://wa.me/971561636326" target="_blank">
+                <i class="fab fa-whatsapp"></i> أ. عبدالله الدهيسات (0561636326)
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // قواعد البيانات المؤقتة في الـ Local Storage للمحاكاة الفورية
+        let DB_BOOKS = JSON.parse(localStorage.getItem('db_books')) || [
+            {id: 1, category: 'العلمية', classification: '510', title: 'مبادئ الرياضيات الذكية', author: 'د.أحمد مصطفى', date: '2024-01-12', summary: 'كتاب شامل للتدريب الرياضي الرقمي.'},
+            {id: 2, category: 'الأدبية', classification: '811', title: 'ديوان العرب والقصائد المنسية', author: 'أ.محمود شاكر', date: '2023-05-18', summary: 'تجميعات فريدة للشعر العربي الأصيل.'}
+        ];
+
+        let DB_BORROWS = JSON.parse(localStorage.getItem('db_borrows')) || [
+            {id: 1, borrowerType: 'طالب', borrowerName: 'محمد أحمد العلي', bookTitle: 'مبادئ الرياضيات الذكية', category: 'العلمية', classification: '510', author: 'د.أحمد مصطفى', borrowDate: '2026-06-25'}
+        ];
+
+        // متغيرات الرسوم البيانية لإعادة بنائها وتحديثها دون تكرار
+        let pieChartInstance = null;
+        let barChartInstance = null;
+
+        // تفعيل الإقلاع الأولي للنظام
+        document.addEventListener("DOMContentLoaded", function() {
+            renderBooks();
+            renderBorrows();
+            buildReturnDropdown();
+            updateHomeStats();
+            parseActivitiesDisplay();
+        });
+
+        // محول التبديل بين الصفحات (Single Page Application)
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            // تأمين التفعيل الفوري للأيقونة المفتوحة
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            } else {
+                // البحث بالسمات البديلة في حال الاستدعاء البرمجي الخارجي
+                const items = document.querySelectorAll('.nav-item');
+                items.forEach(el => {
+                    if(el.getAttribute('onclick').includes(pageId)) el.classList.add('active');
+                });
+            }
+
+            // إذا تم الانتقال لصفحة الإحصائيات، نقوم بتحديث الرسوم التفاعلية فورياً لضمان دقة المساحة (Responsive Canvas)
+            if(pageId === 'stats-page') {
+                initAndRenderCharts();
+            }
+        }
+
+        // --- نظام معالجة الصور المرفوعة وتحويلها لـ Base64 للحفظ الفوري ---
+        function previewImage(input, displayId, adminPreviewId, defaultIconId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById(displayId);
+                    if(imgElement.tagName === 'IMG') {
+                        imgElement.src = e.target.result;
+                        imgElement.style.display = 'block';
+                    } else {
+                        // حالة الشعار في الهيدر إذا كان ديف
+                        imgElement.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+                    }
+                    if(adminPreviewId) {
+                        document.getElementById(adminPreviewId).innerText = "تم تحميل الصورة بنجاح وجاهزة للتثبيت.";
+                    }
+                    if(defaultIconId) {
+                        document.getElementById(defaultIconId).style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // --- لوحة التحكم: حفظ الإعدادات ---
+        function saveAdminSettings() {
+            // تحديث العناوين والنصوص مباشرة بالشاشة
+            document.getElementById('display-platform-title').innerText = document.getElementById('input-platform-title').value;
+            document.getElementById('display-director-title').innerText = document.getElementById('input-director-title').value;
+            document.getElementById('display-director-speech').innerText = document.getElementById('input-director-speech').value;
+            document.getElementById('display-source-name').innerText = document.getElementById('input-source-name').value;
+            document.getElementById('display-source-bio').innerText = document.getElementById('input-source-bio').value;
+            
+            parseActivitiesDisplay();
+            alert("تم تحديث كافة محتويات الشاشة الرئيسية وتصميم الشعار بنجاح!");
+            switchPage('home-page');
+        }
+
+        function parseActivitiesDisplay() {
+            const rawText = document.getElementById('input-activities').value;
+            const lines = rawText.split('\n');
+            let html = '<ul class="activity-list">';
+            lines.forEach(line => {
+                if(line.trim() !== '') html += `<li><i class="fas fa-check" style="color:var(--secondary-color); margin-left: 10px;"></i> ${line}</li>`;
+            });
+            html += '</ul>';
+            document.getElementById('display-activities-content').innerHTML = html;
+        }
+
+        // --- إدارة قاعدة بيانات الكتب (إضافة، تعديل، حذف) ---
+        function renderBooks() {
+            const tbody = document.getElementById('books-table-body');
+            tbody.innerHTML = '';
+            DB_BOOKS.forEach((book, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${book.classification}</strong></td>
+                        <td>${book.title}</td>
+                        <td>${book.category}</td>
+                        <td>${book.author}</td>
+                        <td>${book.date}</td>
+                        <td>
+                            <button class="btn-warning" style="padding:6px 12px; font-size:0.85rem;" onclick="editBook(${index})"><i class="fas fa-edit"></i></button>
+                            <button class="btn-danger" style="padding:6px 12px; font-size:0.85rem;" onclick="deleteBook(${index})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            localStorage.setItem('db_books', JSON.stringify(DB_BOOKS));
+            updateHomeStats();
+        }
+
+        document.getElementById('book-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const index = document.getElementById('book-edit-index').value;
+            const bookData = {
+                category: document.getElementById('book-category').value,
+                classification: document.getElementById('book-classification').value,
+                title: document.getElementById('book-title').value,
+                author: document.getElementById('book-author').value,
+                date: document.getElementById('book-pub-date').value,
+                summary: document.getElementById('book-summary').value
+            };
+
+            if(index === "") {
+                // إضافة جديد
+                bookData.id = Date.now();
+                DB_BOOKS.push(bookData);
+            } else {
+                // تعديل الحالي
+                DB_BOOKS[index] = bookData;
+            }
+            resetBookForm();
+            renderBooks();
+        });
+
+        function editBook(index) {
+            const book = DB_BOOKS[index];
+            document.getElementById('book-edit-index').value = index;
+            document.getElementById('book-category').value = book.category;
+            document.getElementById('book-classification').value = book.classification;
+            document.getElementById('book-title').value = book.title;
+            document.getElementById('book-author').value = book.author;
+            document.getElementById('book-pub-date').value = book.date;
+            document.getElementById('book-summary').value = book.summary;
+            
+            document.getElementById('btn-save-book').innerHTML = 'تحديث البيانات المدخلة <i class="fas fa-save"></i>';
+            document.getElementById('btn-cancel-book-edit').style.display = 'inline-block';
+        }
+
+        function deleteBook(index) {
+            if(confirm("هل أنت متأكد من حذف بيانات هذا الكتاب نهائياً من سجلات المدرسة؟")) {
+                DB_BOOKS.splice(index, 1);
+                renderBooks();
+            }
+        }
+
+        function resetBookForm() {
+            document.getElementById('book-form').reset();
+            document.getElementById('book-edit-index').value = "";
+            document.getElementById('btn-save-book').innerHTML = 'حفظ الكتاب الجديد <i class="fas fa-plus"></i>';
+            document.getElementById('btn-cancel-book-edit').style.display = 'none';
+        }
+
+        // --- نظام الاستعارة والبحث الذكي بـ التكملة التلقائية (Autocomplete) ---
+        function handleBookSearch(val) {
+            const suggestionsContainer = document.getElementById('search-suggestions');
+            suggestionsContainer.innerHTML = '';
+            if(val.trim() === '') {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+            
+            const matched = DB_BOOKS.filter(b => b.title.toLowerCase().includes(val.toLowerCase()));
+            
+            if(matched.length > 0) {
+                matched.forEach(book => {
+                    const div = document.createElement('div');
+                    div.className = 'suggestion-item';
+                    div.innerText = `${book.title} [${book.author}]`;
+                    div.onclick = function() {
+                        document.getElementById('borrow-book-title').value = book.title;
+                        document.getElementById('borrow-book-cat').value = book.category;
+                        document.getElementById('borrow-classification').value = book.classification;
+                        document.getElementById('borrow-author').value = book.author;
+                        suggestionsContainer.style.display = 'none';
+                    };
+                    suggestionsContainer.appendChild(div);
+                });
+                suggestionsContainer.style.display = 'block';
+            } else {
+                suggestionsContainer.style.display = 'none';
+            }
+        }
+
+        // حساب الفوارق الزمنية وإدارة العداد للإعارات (7 أيام كأقصى حد)
+        function calculateBorrowStatus(borrowDateStr) {
+            const bDate = new Date(borrowDateStr);
+            const currentDate = new Date('2026-06-29'); // معتمد على الوقت الحالي للمنصة 2026
+            
+            const diffTime = currentDate - bDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            const allowedPeriod = 7;
+            const remaining = allowedPeriod - diffDays;
+            
+            let statusBadge = '';
+            let countdownText = '';
+            
+            if (remaining >= 0) {
+                statusBadge = `<span class="badge badge-success">في الموعد المحدد</span>`;
+                countdownText = `متبقي: ${remaining} أيام`;
+            } else {
+                statusBadge = `<span class="badge badge-danger">يوجد تأخير في التسليم</span>`;
+                countdownText = `منقضية ومتأخرة: ${Math.abs(remaining)} يوم`;
+            }
+            
+            return { badge: statusBadge, countdown: countdownText };
+        }
+
+        function renderBorrows() {
+            const tbody = document.getElementById('borrow-table-body');
+            tbody.innerHTML = '';
+            DB_BORROWS.forEach(b => {
+                const status = calculateBorrowStatus(b.borrowDate);
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${b.borrowerName}</strong> <br><small style="color:#64748b;">(${b.borrowerType})</small></td>
+                        <td>${b.bookTitle}</td>
+                        <td>${b.borrowDate}</td>
+                        <td>${status.countdown}</td>
+                        <td>${status.badge}</td>
+                    </tr>
+                `;
+            });
+            localStorage.setItem('db_borrows', JSON.stringify(DB_BORROWS));
+            buildReturnDropdown();
+        }
+
+        document.getElementById('borrow-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newBorrow = {
+                id: Date.now(),
+                borrowerType: document.getElementById('borrower-type').value,
+                borrowerName: document.getElementById('borrower-name').value,
+                bookTitle: document.getElementById('borrow-book-title').value,
+                category: document.getElementById('borrow-book-cat').value || "غير محدد",
+                classification: document.getElementById('borrow-classification').value || "غير محدد",
+                author: document.getElementById('borrow-author').value || "غير محدد",
+                borrowDate: document.getElementById('borrow-date').value
+            };
+            
+            DB_BORROWS.push(newBorrow);
+            renderBorrows();
+            document.getElementById('borrow-form').reset();
+            alert("تم تسجيل عملية الإعارة وبدء العداد الذكي التنازلي الممتد لـ 7 أيام!");
+        });
+
+        // --- نظام إرجاع الكتب المستعارة ---
+        function buildReturnDropdown() {
+            const select = document.getElementById('return-select-borrow');
+            select.innerHTML = '<option value="">-- اختر اسم المستعير والكتاب المستعار --</option>';
+            DB_BORROWS.forEach((b, index) => {
+                select.innerHTML += `<option value="${index}">${b.borrowerName} -> كتاب: ${b.bookTitle}</option>`;
+            });
+        }
+
+        function loadReturnDetails() {
+            const idx = document.getElementById('return-select-borrow').value;
+            const detailsCard = document.getElementById('return-details-card');
+            if(idx === "") {
+                detailsCard.style.display = 'none';
+                return;
+            }
+            const b = DB_BORROWS[idx];
+            document.getElementById('ret-name').innerText = b.borrowerName;
+            document.getElementById('ret-book').innerText = b.bookTitle;
+            document.getElementById('ret-date').innerText = b.borrowDate;
+            detailsCard.style.display = 'block';
+        }
+
+        function processBookReturn() {
+            const idx = document.getElementById('return-select-borrow').value;
+            if(idx === "") {
+                alert("برجاء اختيار معاملة إعارة نشطة أولاً لإتمام الإرجاع.");
+                return;
+            }
+            
+            DB_BORROWS.splice(idx, 1);
+            renderBorrows();
+            document.getElementById('return-details-card').style.display = 'none';
+            document.getElementById('return-select-borrow').value = "";
+            alert("تم إرجاع الكتاب بنجاح، وتحديث الكميات والمؤشرات التنازلية المتاحة بالمنصة!");
+        }
+
+        // تحديث إحصائيات الأقسام ديناميكياً وبناء جداول صفحة الإحصاءات الرسمية
+        function updateHomeStats() {
+            const counts = { 'العلمية': 0, 'الأدبية': 0, 'التربوية': 0, 'قصص وروايات': 0 };
+            DB_BOOKS.forEach(b => {
+                if(counts[b.category] !== undefined) counts[b.category]++;
+            });
+            
+            // 1. تحديث الملخص في الشاشة الرئيسية
+            const homeStatsList = document.getElementById('home-quick-stats-list');
+            homeStatsList.innerHTML = `
+                <li><span class="stats-item-title"><i class="fas fa-chart-line" style="color:var(--secondary-color);"></i> قسم الكتب العلمية</span> <strong>${counts['العلمية']} كتب</strong></li>
+                <li><span class="stats-item-title"><i class="fas fa-chart-pie" style="color:var(--secondary-color);"></i> قسم الكتب الأدبية</span> <strong>${counts['الأدبية']} كتب</strong></li>
+                <li><span class="stats-item-title"><i class="fas fa-chart-area" style="color:var(--secondary-color);"></i> قسم الدراسات التربوية</span> <strong>${counts['التربوية']} كتب</strong></li>
+                <li><span class="stats-item-title"><i class="fas fa-signal" style="color:var(--secondary-color);"></i> قصص وروايات عالمية</span> <strong>${counts['قصص وروايات'] || 0} كتب</strong></li>
+            `;
+
+            // 2. تحديث جدول صفحة الإحصاءات والرسوم البيانية المستقلة
+            const detailedTbody = document.getElementById('stats-table-detailed-body');
+            if(detailedTbody) {
+                detailedTbody.innerHTML = `
+                    <tr><td><strong>قسم الكتب العلمية</strong></td><td><span class="badge badge-success">${counts['العلمية']} كتاب</span></td><td>نشط ومحدث ميكانيكياً</td></tr>
+                    <tr><td><strong>قسم الكتب الأدبية</strong></td><td><span class="badge badge-success">${counts['الأدبية']} كتاب</span></td><td>نشط ومحدث ميكانيكياً</td></tr>
+                    <tr><td><strong>قسم الدراسات التربوية</strong></td><td><span class="badge badge-success">${counts['التربوية']} كتاب</span></td><td>نشط ومحدث ميكانيكياً</td></tr>
+                    <tr><td><strong>قصص وروايات عالمية</strong></td><td><span class="badge badge-success">${counts['قصص وروايات']} كتاب</span></td><td>نشط ومحدث ميكانيكياً</td></tr>
+                `;
+            }
+        }
+
+        // دالة إنشاء وتحديث الرسوم البيانية التفاعلية (الدائري والأعمدة) في الصفحة المستقلة
+        function initAndRenderCharts() {
+            const counts = { 'العلمية': 0, 'الأدبية': 0, 'التربوية': 0, 'قصص وروايات': 0 };
+            DB_BOOKS.forEach(b => {
+                if(counts[b.category] !== undefined) counts[b.category]++;
+            });
+
+            const categoriesLabels = ['الكتب العلمية', 'الكتب الأدبية', 'الدراسات التربوية', 'قصص وروايات'];
+            const dataValues = [counts['العلمية'], counts['الأدبية'], counts['التربوية'], counts['قصص وروايات']];
+            const chartColors = ['#1e1b4b', '#b45309', '#f59e0b', '#0284c7'];
+
+            // تدمير النسخ السابقة لتفادي تداخل البيانات عند التحويم بالماوس
+            if(pieChartInstance) pieChartInstance.destroy();
+            if(barChartInstance) barChartInstance.destroy();
+
+            // 1. بناء الرسم البياني الدائري للنسب المئوية (Pie Chart)
+            const ctxPie = document.getElementById('pieChartCanvas').getContext('2d');
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: categoriesLabels,
+                    datasets: [{
+                        data: dataValues,
+                        backgroundColor: chartColors,
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Cairo', size: 12 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let sum = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    let value = context.raw;
+                                    let percentage = sum > 0 ? ((value / sum) * 100).toFixed(1) + "%" : "0%";
+                                    return ` ${context.label}: ${value} كتاب (${percentage})`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. بناء الرسم البياني التوضيحي بالأعمدة (Bar Chart)
+            const ctxBar = document.getElementById('barChartCanvas').getContext('2d');
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: categoriesLabels,
+                    datasets: [{
+                        label: 'عدد الكتب بالأقسام',
+                        data: dataValues,
+                        backgroundColor: chartColors,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, font: { family: 'Cairo' } } },
+                        x: { ticks: { font: { family: 'Cairo' } } }
+                    }
+                }
+            });
+        }
+
+        // دالة الطباعة الذكية المنسقة لصفحة واحدة
+        function printBooksInventory() {
+            window.print();
+        }
+    </script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCeAKpTLK_vDtYm7fE0GNor95lxjixVcDw",
+    authDomain: "school-library-platform-4dc8e.firebaseapp.com",
+    projectId: "school-library-platform-4dc8e",
+    storageBucket: "school-library-platform-4dc8e.firebasestorage.app",
+    messagingSenderId: "572114928465",
+    appId: "1:572114928465:web:df95b6665a0c3db0808970",
+    measurementId: "G-EREJ9HY6MZ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+// استدعاء قاعدة البيانات
+const db = getFirestore();
+
+// تحديد الزر
+const saveButton = document.getElementById("btn-save-book");
+
+saveButton.addEventListener("click", async () => {
+  // جلب القيم من المدخلات
+  const bookClassification = document.getElementById("book-classification").value;
+  const bookTitle = document.getElementById("book-title").value;
+  const bookAuthor = document.getElementById("book-author").value;
+  const bookPubDate = document.getElementById("book-pub-date").value;
+  const bookSummary = document.getElementById("book-summary").value;
+
+  try {
+    // إضافة البيانات إلى Firestore
+    await addDoc(collection(db, "books"), {
+      classification: bookClassification,
+      title: bookTitle,
+      author: bookAuthor,
+      pubDate: bookPubDate,
+      summary: bookSummary,
+      createdAt: new Date()
+    });
+    alert("تم حفظ بيانات الكتاب بنجاح!");
+  } catch (e) {
+    console.error("خطأ في الحفظ: ", e);
+    alert("حدث خطأ أثناء الحفظ");
+  }
+});
+[30/06/2026 01:50 AM] عبدالله الدهيسات: import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+// استدعاء قاعدة البيانات
+const db = getFirestore();
+
+// تحديد الزر
+const saveButton = document.getElementById("btn-save-book");
+
+saveButton.addEventListener("click", async () => {
+  // جلب القيم من المدخلات
+  const bookClassification = document.getElementById("book-classification").value;
+  const bookTitle = document.getElementById("book-title").value;
+  const bookAuthor = document.getElementById("book-author").value;
+  const bookPubDate = document.getElementById("book-pub-date").value;
+  const bookSummary = document.getElementById("book-summary").value;
+
+  try {
+    // إضافة البيانات إلى Firestore
+    await addDoc(collection(db, "books"), {
+      classification: bookClassification,
+      title: bookTitle,
+      author: bookAuthor,
+      pubDate: bookPubDate,
+      summary: bookSummary,
+      createdAt: new Date()
+    });
+    alert("تم حفظ بيانات الكتاب بنجاح!");
+  } catch (e) {
+    console.error("خطأ في الحفظ: ", e);
+    alert("حدث خطأ أثناء الحفظ");
+  }
+});
+[30/06/2026 01:52 AM] عبدالله الدهيسات: import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+async function loadBooks() {
+  const querySnapshot = await getDocs(collection(db, "books"));
+  const tableBody = document.getElementById("books-table-body"); // تأكد أن الجدول لديك يحمل هذا الـ ID
+
+  tableBody.innerHTML = ""; // مسح الجدول قبل إعادة تعبئته
+
+  querySnapshot.forEach((doc) => {
+    const book = doc.data();
+    const row = <tr>
+      <td>${book.classification}</td>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>${book.pubDate}</td>
+    </tr>;
+    tableBody.innerHTML += row;
+  });
+}
+
+// تشغيل الدالة عند تحميل الصفحة
+window.onload = loadBooks;
+</script>
+</body>
+</html>
